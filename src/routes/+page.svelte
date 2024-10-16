@@ -59,6 +59,8 @@
         </div>
       </div>
     </div>
-    <a href="/image" class="btn btn-block"> Next </a>
+    <a href="/image" class="btn btn-block btn-info">
+      Next
+    </a>
   </section>
 </section>

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
+  import { prediction } from "$lib/stores/prediction";
 
   let fileSelected: string | null;
   let image: File | null;
@@ -28,7 +29,6 @@
     }
   ) {
     const formData = new FormData();
-    console.log(image);
     formData.append("image", image!, image!.name);
     // return console.log(formData);
     loading = true;
@@ -39,9 +39,10 @@
       .then((r) => r.json())
       .then((data) => {
         if (data.error) {
-          alert("Error: " + data.error);
+          err_message = data.error;
         } else {
           //   $state.prediction = data.prediction;
+          prediction.set(data.prediction);
           goto("/result");
         }
       })
@@ -62,7 +63,7 @@
 
 <form
   on:submit|preventDefault={handleSubmit}
-  class="place-items-center grid grid-cols-6 gap-3 space-y-6 p-5 md:p-0"
+  class="place-items-center grid grid-cols-6 gap-3 space-y-6 p-5 md:p-0 md:h-[90vh] lg:h-full"
 >
   <a
     href="/"
@@ -83,6 +84,7 @@
       </div>
       <input
         type="file"
+        accept="image/*"
         on:change={(e) => handleFile(e)}
         class="file-input file-input-bordered w-full max-w-xs"
       />
